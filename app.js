@@ -1057,7 +1057,7 @@ function badgeLabel(badge) {
 function badgeArtwork(badge) {
   const src = badgeAssets[state.language]?.[badge.className] || badgeAssets.en[badge.className];
   if (!src) return "";
-  return `<img src="${src}" alt="${badgeLabel(badge)}">`;
+  return `<img src="${src}" alt="" loading="lazy" decoding="async" onerror="this.hidden=true">`;
 }
 
 function getBadgeLevel(tastings) {
