@@ -846,7 +846,7 @@ async function loadSupabaseData() {
 async function refreshEventTop10() {
   try {
     eventTop10 = await supabaseRpc("get_event_top10", {});
-    if (state.currentSubInfo === "top10") {
+    if (activeViewName === "subinfo" && state.currentSubInfo === "top10") {
       renderSubInfo("top10");
     }
   } catch (error) {
