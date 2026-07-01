@@ -609,6 +609,7 @@ const utilityBack = document.getElementById("utility-back");
 const languageSwitch = document.getElementById("language-switch");
 
 let activeViewName = document.querySelector(".view.is-active")?.dataset.view || "passport";
+let interestReturnView = "wine";
 
 function showScreen(name) {
   screens.forEach((screen) => {
@@ -1101,7 +1102,7 @@ function renderTopPicks() {
           <div class="wine-meta">${lang.table} ${table?.number || ""} · ${distributor?.name || ""}</div>
           <div class="stars">${stars(state.ratings[id] || 0)}</div>
         </div>
-        <button class="small-button ${saved ? "is-saved" : ""}" data-interest="${id}" ${saved ? "disabled" : ""}>${saved ? lang.onList : lang.interested}</button>
+        <button class="small-button ${saved ? "is-saved" : ""}" data-interest="${id}" data-interest-return="passport" ${saved ? "disabled" : ""}>${saved ? lang.onList : lang.interested}</button>
       </article>
     `;
   }).join("");
@@ -1380,8 +1381,20 @@ function showBadgeEarned(level) {
   badgeDialog.showModal();
 }
 
-function openInterest(wineId) {
+function finishInterestFlow() {
+  renderTopPicks();
+  renderPassport();
+  if (interestReturnView === "passport") {
+    setActiveTab("passport");
+    showView("passport");
+    return;
+  }
+  renderWineDetail(state.currentWineId);
+}
+
+function openInterest(wineId, returnView = "wine") {
   state.currentWineId = wineId;
+  interestReturnView = returnView;
   populateGuestForms();
   updateInterestSubmitState();
   if (hasMinimumContact()) {
@@ -1506,9 +1519,7 @@ document.addEventListener("click", (event) => {
   }
   if (action === "confirm-interest") {
     saveInterest(state.currentWineId, "interest_confirm_modal");
-    renderWineDetail(state.currentWineId);
-    renderTopPicks();
-    renderPassport();
+    finishInterestFlow();
     interestDialog.close();
     return;
   }
@@ -1591,7 +1602,7 @@ document.addEventListener("click", (event) => {
 
   const interest = event.target.closest("[data-interest]");
   if (interest) {
-    openInterest(interest.dataset.interest);
+    openInterest(interest.dataset.interest, interest.dataset.interestReturn || "wine");
     return;
   }
 
@@ -1623,9 +1634,7 @@ document.getElementById("interest-form").addEventListener("submit", (event) => {
   if (document.querySelector("#interest-form .primary-action").disabled) return;
   storeGuest(getFormValues("interest"));
   saveInterest(state.currentWineId, "interest_contact_form");
-  renderWineDetail(state.currentWineId);
-  renderTopPicks();
-  renderPassport();
+  finishInterestFlow();
   interestDialog.close();
 });
 
