@@ -1088,10 +1088,11 @@ function renderPassport() {
   const stats = getPassportStats();
   const badge = getBadge(stats.tastings);
   const badgeEl = document.getElementById("current-badge");
+  badgeEl.closest(".hero-card").classList.toggle("is-empty", stats.tastings === 0);
   badgeEl.className = `badge-stamp ${badge.className}`;
-  badgeEl.classList.toggle("is-hidden", stats.tastings === 0);
+  badgeEl.classList.remove("is-hidden");
   badgeEl.setAttribute("aria-label", badgeLabel(badge));
-  badgeEl.innerHTML = badgeArtwork(badge);
+  badgeEl.innerHTML = stats.tastings ? badgeArtwork(badge) : `<span>?</span><strong>${lang.emptyTitle}</strong>`;
   document.getElementById("passport-label").textContent = lang.passportKicker;
   document.getElementById("passport-headline").textContent = stats.tastings ? lang.passportHeadline : lang.emptyTitle;
   document.getElementById("passport-summary").textContent = stats.tastings ? lang.passportSummary : lang.emptyBody;
