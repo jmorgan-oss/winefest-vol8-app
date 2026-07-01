@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="only light">
+  <title>Boquete Wine Fest Passport</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <div id="app" class="phone-shell">
+    <section id="screen-welcome" class="screen welcome-screen is-active" data-screen="welcome">
+      <div class="poster-wash"></div>
+      <div class="welcome-content">
+        <div class="event-lockup">
+          <div class="event-kicker">Boquete</div>
+          <div class="event-title">Wine Fest</div>
+          <div class="event-volume">Vol. 8</div>
+        </div>
+        <img class="panamonte-welcome" src="./assets/panamonte-logo.svg" alt="Hotel Panamonte">
+        <p class="event-date">11 Jul 2026 · Boquete, Chiriqui, Panama</p>
+        <div class="language-card">
+          <p class="language-label">Choose your language / Elige tu idioma</p>
+          <button class="primary-action" data-lang="en">English</button>
+          <button class="secondary-action" data-lang="es">Español</button>
+        </div>
+      </div>
+      <button class="designed-mark welcome-mark" data-action="brand">Designed by <strong>BEGASA</strong></button>
+    </section>
+
+    <section id="screen-contact" class="screen contact-screen" data-screen="contact">
+      <div class="contact-panel">
+        <h1>Make your passport yours</h1>
+        <p>Share your contact info now, or skip and add it later if you want a distributor to contact you.</p>
+        <form id="contact-form" class="form-stack">
+          <label>
+            Name
+            <input id="guest-name" type="text" autocomplete="name" placeholder="Your name">
+          </label>
+          <label>
+            Email
+            <input id="guest-email" type="email" autocomplete="email" placeholder="you@example.com">
+          </label>
+          <label>
+            Phone / WhatsApp
+            <input id="guest-phone" type="tel" autocomplete="tel" placeholder="+507 ...">
+          </label>
+          <button class="primary-action" type="submit">Enter WineFest</button>
+        </form>
+        <button class="text-action" data-action="skip-contact">Skip for now</button>
+      </div>
+    </section>
+
+    <section id="screen-app" class="screen app-screen" data-screen="app">
+      <header class="app-header">
+        <button class="mini-event-mark" data-tab="passport" aria-label="WineFest home">
+          <span>WineFest</span>
+          <strong>Vol. 8</strong>
+        </button>
+        <button class="designed-mark top-mark" data-action="brand">Designed by <strong>BEGASA</strong></button>
+      </header>
+
+      <div class="utility-row">
+        <button id="utility-back" class="back-link utility-back is-placeholder" data-action="utility-back">Back</button>
+        <button id="language-switch" class="language-switch" data-action="switch-language">ES</button>
+      </div>
+
+      <main class="app-main">
+        <section id="view-passport" class="view is-active" data-view="passport">
+          <div class="hero-card">
+            <div>
+              <p id="passport-label" class="mini-label">Your progress</p>
+              <h2 id="passport-headline">Your passport is taking shape</h2>
+              <p id="passport-summary">Taste selections to collect stamps and build your WineFest list.</p>
+            </div>
+            <div id="current-badge" class="badge-stamp badge-empty">
+              <span>No</span>
+              <strong>Stamp</strong>
+            </div>
+          </div>
+
+          <div id="passport-metrics" class="metrics-grid">
+            <div class="stat-card">
+              <span data-i18n="tablesVisited">Tables visited</span>
+              <strong id="tables-visited">0</strong>
+            </div>
+            <div class="stat-card">
+              <span data-i18n="tastingsRated">Tastings rated</span>
+              <strong id="tastings-rated">0</strong>
+            </div>
+            <div class="stat-card">
+              <span data-i18n="interestsSaved">Interests saved</span>
+              <strong id="interests-saved">0</strong>
+            </div>
+          </div>
+
+          <div id="empty-passport" class="empty-card">
+            <div class="empty-stamp">?</div>
+            <h3>Your passport is waiting for its first stamp.</h3>
+            <p>Taste your first selection to get started.</p>
+            <button class="primary-action" data-tab="taste">Start tasting</button>
+          </div>
+
+          <h3 id="top-picks-title" class="section-title">Top selections</h3>
+          <div id="top-picks" class="list-stack"></div>
+        </section>
+
+        <section id="view-taste" class="view" data-view="taste">
+          <div class="section-intro">
+            <p class="mini-label">Taste</p>
+            <h2>Choose a table</h2>
+            <p>Open a table to see its wines, sparkling selections, and other featured beverages.</p>
+          </div>
+          <div id="tables-list" class="table-grid"></div>
+        </section>
+
+        <section id="view-info" class="view" data-view="info">
+          <div class="section-intro">
+            <p class="mini-label">Event Info</p>
+            <h2>Everything for today</h2>
+          </div>
+          <div class="info-grid">
+            <button class="info-card" data-subview="top10">
+              <span id="info-top10-label">Event Top 10</span>
+              <strong id="info-top10-title">Guest favorites</strong>
+            </button>
+            <button class="info-card" data-subview="distributors">
+              <span id="info-distributors-label">Distributors</span>
+              <strong id="info-distributors-title">Who is pouring</strong>
+            </button>
+            <button class="info-card" data-subview="schedule">
+              <span id="info-schedule-label">Schedule</span>
+              <strong id="info-schedule-title">What is happening</strong>
+            </button>
+            <button class="info-card menu-card" data-subview="menu">
+              <img src="./assets/panamonte-logo.svg" alt="">
+              <strong id="info-menu-title">Food & menu</strong>
+            </button>
+          </div>
+        </section>
+
+        <section id="view-table" class="view detail-view" data-view="table">
+          <div id="table-detail"></div>
+        </section>
+
+        <section id="view-wine" class="view detail-view" data-view="wine">
+          <div id="wine-detail"></div>
+        </section>
+
+        <section id="view-subinfo" class="view detail-view" data-view="subinfo">
+          <div id="subinfo-detail"></div>
+        </section>
+
+        <section id="view-distributor" class="view detail-view" data-view="distributor">
+          <div id="distributor-detail"></div>
+        </section>
+      </main>
+
+      <nav class="bottom-nav" aria-label="Main navigation">
+        <button class="nav-item is-active" data-tab="passport">
+          <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5c0-1 1-1.7 2-1.3l5 1.8v14l-5-1.8c-1.2-.4-2-.9-2-2.2V5.5Zm16 0c0-1-1-1.7-2-1.3l-5 1.8v14l5-1.8c1.2-.4 2-.9 2-2.2V5.5Z"/><path d="M12 6v14"/></svg>
+          <span>Passport</span>
+        </button>
+        <button class="nav-item" data-tab="taste">
+          <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3h8l-1 7a4 4 0 0 1-6 0L8 3Z"/><path d="M12 12v7"/><path d="M9 21h6"/></svg>
+          <span>Taste</span>
+        </button>
+        <button class="nav-item" data-tab="info">
+          <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-5.2 7-11a7 7 0 0 0-14 0c0 5.8 7 11 7 11Z"/><path d="M12 8h.01"/><path d="M11 11h1v4h1"/></svg>
+          <span>Info</span>
+        </button>
+      </nav>
+    </section>
+  </div>
+
+  <dialog id="interest-dialog" class="modal-card">
+    <div id="interest-ready" class="modal-state">
+      <h2>Share your information?</h2>
+      <p>We’ll share your information with the distributor so they can contact you about this selection.</p>
+      <div class="modal-actions">
+        <button class="secondary-action" data-action="close-modal">Cancel</button>
+        <button class="primary-action" data-action="confirm-interest">Confirm</button>
+      </div>
+    </div>
+    <div id="interest-contact" class="modal-state">
+      <h2>Connect with the distributor</h2>
+      <p>To connect you with the distributor, please share your name and email or WhatsApp.</p>
+      <form id="interest-form" class="form-stack">
+        <label>
+          Name
+          <input id="interest-name" type="text" autocomplete="name" placeholder="Your name">
+        </label>
+        <label>
+          Email
+          <input id="interest-email" type="email" autocomplete="email" placeholder="you@example.com">
+        </label>
+        <label>
+          Phone / WhatsApp
+          <input id="interest-phone" type="tel" autocomplete="tel" placeholder="+507 ...">
+        </label>
+        <button class="primary-action" type="submit">Save interest</button>
+      </form>
+      <button class="text-action" data-action="close-modal">Cancel</button>
+    </div>
+    <div id="interest-success" class="modal-state">
+      <h2>Interest saved</h2>
+      <p>Your selection has been saved for distributor follow-up.</p>
+      <button class="primary-action" data-action="close-modal">Done</button>
+    </div>
+  </dialog>
+
+  <dialog id="brand-dialog" class="modal-card brand-modal">
+    <button class="close-x" data-action="close-brand">×</button>
+    <div id="brand-info-state" class="brand-state is-active">
+      <div class="begasa-wordmark">BEGASA</div>
+      <p class="begasa-sub">Soluciones Inteligentes</p>
+      <h2>Designed by BEGASA Soluciones Inteligentes</h2>
+      <p>Esta experiencia digital fue creada para ayudar a los visitantes de WineFest a descubrir, calificar y conectar con los vinos y distribuidores del evento.</p>
+      <div class="brand-contact">
+        <span>Para más información</span>
+        <button class="brand-contact-action" data-action="brand-email">info@begasapa.com</button>
+        <a class="brand-contact-action" href="https://wa.me/50762365678?text=Hola%20BEGASA%2C%20me%20gustaria%20saber%20mas%20sobre%20la%20experiencia%20digital%20de%20WineFest." target="_blank" rel="noreferrer">WhatsApp: +507 6236-5678</a>
+      </div>
+    </div>
+    <div id="brand-lead-state" class="brand-state">
+      <h2>Connect with BEGASA</h2>
+      <p>Share your contact info and BEGASA Soluciones Inteligentes can follow up with more information.</p>
+      <form id="brand-lead-form" class="form-stack">
+        <label>
+          Name
+          <input id="brand-name" type="text" autocomplete="name" placeholder="Your name">
+        </label>
+        <label>
+          Email
+          <input id="brand-email" type="email" autocomplete="email" placeholder="you@example.com">
+        </label>
+        <label>
+          Phone / WhatsApp
+          <input id="brand-phone" type="tel" autocomplete="tel" placeholder="+507 ...">
+        </label>
+        <button class="primary-action" type="submit">Share my info</button>
+      </form>
+      <button class="text-action" data-action="brand-back">Back</button>
+    </div>
+    <div id="brand-success-state" class="brand-state">
+      <h2>Information saved</h2>
+      <p>BEGASA will be able to follow up with you after the event.</p>
+      <button class="primary-action" data-action="close-brand">Done</button>
+    </div>
+  </dialog>
+
+  <dialog id="badge-dialog" class="modal-card badge-modal">
+    <div id="badge-earned-art" class="badge-preview"></div>
+    <h2 id="badge-earned-title">First Stamp</h2>
+    <p id="badge-earned-copy">You earned a new WineFest passport stamp.</p>
+    <button class="primary-action" data-action="close-badge">Nice</button>
+  </dialog>
+
+  <script src="./app.js"></script>
+</body>
+</html>
