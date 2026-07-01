@@ -341,11 +341,13 @@ button {
   min-height: 0;
   padding: 0;
   background: transparent;
+  font-size: 12px;
   text-align: right;
 }
 
 .top-mark strong {
-  font-size: 15px;
+  font-size: 25px;
+  line-height: 0.92;
 }
 
 .mini-event-mark {
@@ -395,12 +397,17 @@ button {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
+  gap: 10px;
   padding: 19px;
   border-radius: 20px;
   background: var(--blue);
   color: #fff;
   box-shadow: var(--shadow);
+}
+
+.hero-card > div:first-child {
+  min-width: 0;
+  flex: 1 1 auto;
 }
 
 .hero-card p,
@@ -409,14 +416,16 @@ button {
 }
 
 .hero-card h2 {
-  font-size: 32px;
+  font-size: 29px;
+  line-height: 0.95;
 }
 
 .badge-stamp {
   display: grid;
   place-items: center;
-  width: 84px;
-  height: 84px;
+  width: 132px;
+  height: 132px;
+  flex: 0 0 33%;
   border: 0;
   border-radius: 8px;
   background: transparent;
@@ -780,14 +789,14 @@ button {
 
 .nav-item {
   display: grid;
-  gap: 3px;
+  gap: 5px;
   place-items: center;
   border: 0;
-  border-radius: 14px;
-  padding: 8px 4px;
+  border-radius: 16px;
+  padding: 10px 4px 9px;
   background: transparent;
   color: var(--muted);
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 800;
 }
 
@@ -797,11 +806,11 @@ button {
 }
 
 .nav-icon {
-  width: 21px;
-  height: 21px;
+  width: 31px;
+  height: 31px;
   fill: none;
   stroke: currentColor;
-  stroke-width: 1.9;
+  stroke-width: 1.75;
   stroke-linecap: round;
   stroke-linejoin: round;
 }
@@ -975,7 +984,7 @@ button {
   place-items: center;
   width: 132px;
   height: 132px;
-  margin: 0 auto 16px;
+  margin: 0 auto 12px;
   border: 0;
   border-radius: 10px;
   background: transparent;
