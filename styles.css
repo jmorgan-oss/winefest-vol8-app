@@ -210,7 +210,7 @@ button {
 
 .designed-mark {
   border: 0;
-  background: rgba(255, 255, 255, 0.82);
+  background: #fff;
   color: var(--ink);
   font-size: 10px;
   letter-spacing: 0.04em;
@@ -399,7 +399,7 @@ button {
   position: relative;
   display: block;
   isolation: isolate;
-  min-height: 224px;
+  min-height: 266px;
   padding: 18px 18px 18px;
   border-radius: 20px;
   overflow: hidden;
@@ -426,7 +426,7 @@ button {
   position: relative;
   z-index: 1;
   min-width: 0;
-  padding-right: 172px;
+  padding-right: 0;
 }
 
 .hero-card p,
@@ -435,27 +435,50 @@ button {
 }
 
 .hero-card h2 {
-  max-width: 178px;
-  font-size: clamp(24px, 6.7vw, 28px);
-  line-height: 1;
+  max-width: 160px;
+  font-size: clamp(22px, 6.1vw, 25px);
+  line-height: 0.99;
+}
+
+.hero-card:not(.is-empty) h2 {
+  display: none;
 }
 
 .hero-card #passport-summary {
   max-width: none;
   padding-right: 0;
-  margin-top: 60px;
+  margin-top: 180px;
+  margin-right: 0;
   font-size: 15px;
   line-height: 1.14;
 }
 
+.hero-card.is-empty {
+  min-height: 188px;
+}
+
+.hero-card.is-empty > div:first-child {
+  padding-right: 0;
+}
+
+.hero-card.is-empty h2 {
+  max-width: none;
+}
+
+.hero-card.is-empty #passport-summary {
+  margin-top: 14px;
+  margin-right: 0;
+}
+
 .badge-stamp {
   position: absolute;
-  top: 12px;
-  right: 16px;
+  top: 36px;
+  left: 50%;
   display: grid;
   place-items: center;
   width: clamp(166px, 45%, 186px);
   height: clamp(166px, 45vw, 186px);
+  transform: translateX(-50%);
   border: 0;
   border-radius: 8px;
   background: transparent;
@@ -473,26 +496,41 @@ button {
 
 @media (max-width: 380px) {
   .hero-card {
-    min-height: 218px;
+    min-height: 256px;
     padding-right: 16px;
   }
 
   .hero-card > div:first-child {
-    padding-right: 154px;
+    padding-right: 0;
   }
 
   .hero-card h2 {
-    max-width: 156px;
-    font-size: 24px;
+    max-width: 142px;
+    font-size: 22px;
   }
 
   .hero-card #passport-summary {
-    margin-top: 56px;
+    margin-top: 168px;
+    margin-right: 0;
     font-size: 14px;
   }
 
+  .hero-card.is-empty {
+    min-height: 180px;
+  }
+
+  .hero-card.is-empty > div:first-child {
+    padding-right: 0;
+  }
+
+  .hero-card.is-empty #passport-summary {
+    margin-top: 12px;
+    margin-right: 0;
+  }
+
   .badge-stamp {
-    right: 12px;
+    top: 34px;
+    left: 50%;
     width: 160px;
     height: 160px;
   }
