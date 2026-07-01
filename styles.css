@@ -415,11 +415,11 @@ button {
 .badge-stamp {
   display: grid;
   place-items: center;
-  width: 76px;
-  height: 76px;
-  border: 1px solid rgba(255, 255, 255, 0.28);
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.08);
+  width: 84px;
+  height: 84px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
   overflow: hidden;
 }
 
@@ -430,34 +430,29 @@ button {
 }
 
 .badge-empty {
-  border-style: solid;
+  border: 1px dashed rgba(255, 255, 255, 0.35);
   background: rgba(255, 255, 255, 0.08);
 }
 
 .badge-first {
-  border-color: rgba(246, 167, 184, 0.85);
-  background: rgba(246, 167, 184, 0.1);
+  background: transparent;
 }
 
 .badge-explorer {
-  border-color: #b87333;
-  background: rgba(184, 115, 51, 0.1);
+  background: transparent;
 }
 
 .badge-scout {
-  border-color: #c9ced6;
-  background: rgba(201, 206, 214, 0.12);
+  background: transparent;
 }
 
 .badge-tour {
-  border-color: #d8a928;
-  background: rgba(216, 169, 40, 0.12);
+  background: transparent;
 }
 
 .badge-legend {
-  border-color: #d8a928;
-  background: rgba(116, 16, 50, 0.18);
-  box-shadow: inset 0 0 0 1px rgba(229, 232, 238, 0.4);
+  background: transparent;
+  box-shadow: none;
 }
 
 .stats-grid,
@@ -978,12 +973,12 @@ button {
 .badge-preview {
   display: grid;
   place-items: center;
-  width: 104px;
-  height: 104px;
+  width: 132px;
+  height: 132px;
   margin: 0 auto 16px;
-  border: 1px solid rgba(18, 55, 173, 0.24);
-  border-radius: 50%;
-  background: rgba(18, 55, 173, 0.05);
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
   overflow: hidden;
 }
 
@@ -994,27 +989,22 @@ button {
 }
 
 .badge-preview.badge-first {
-  border-color: #f6a7b8;
-  background: rgba(246, 167, 184, 0.1);
+  background: transparent;
 }
 
 .badge-preview.badge-explorer {
-  border-color: #b87333;
-  background: rgba(184, 115, 51, 0.1);
+  background: transparent;
 }
 
 .badge-preview.badge-scout {
-  border-color: #c9ced6;
-  background: rgba(201, 206, 214, 0.12);
+  background: transparent;
 }
 
 .badge-preview.badge-tour {
-  border-color: #d8a928;
-  background: rgba(216, 169, 40, 0.12);
+  background: transparent;
 }
 
 .badge-preview.badge-legend {
-  border-color: #d8a928;
-  background: rgba(116, 16, 50, 0.18);
-  box-shadow: inset 0 0 0 1px rgba(229, 232, 238, 0.4);
+  background: transparent;
+  box-shadow: none;
 }
