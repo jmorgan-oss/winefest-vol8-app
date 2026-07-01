@@ -326,7 +326,7 @@ button {
   top: 0;
   z-index: 10;
   display: grid;
-  grid-template-columns: 64px 1fr 104px;
+  grid-template-columns: 58px 1fr 112px;
   align-items: center;
   gap: 8px;
   min-height: 70px;
@@ -341,7 +341,7 @@ button {
   min-height: 0;
   padding: 0;
   background: transparent;
-  font-size: 10px;
+  font-size: 9px;
   text-align: right;
 }
 
@@ -395,11 +395,10 @@ button {
 }
 
 .hero-card {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 10px;
-  padding: 19px;
+  position: relative;
+  display: block;
+  min-height: 206px;
+  padding: 18px 18px 20px;
   border-radius: 20px;
   background: var(--blue);
   color: #fff;
@@ -408,7 +407,7 @@ button {
 
 .hero-card > div:first-child {
   min-width: 0;
-  flex: 1 1 auto;
+  padding-right: 148px;
 }
 
 .hero-card p,
@@ -417,20 +416,32 @@ button {
 }
 
 .hero-card h2 {
-  font-size: 29px;
-  line-height: 0.95;
+  max-width: 230px;
+  font-size: 28px;
+  line-height: 0.94;
+}
+
+.hero-card #passport-summary {
+  max-width: none;
+  padding-right: 0;
+  margin-top: 38px;
 }
 
 .badge-stamp {
+  position: absolute;
+  top: 16px;
+  right: 16px;
   display: grid;
   place-items: center;
-  width: clamp(148px, 45%, 176px);
-  height: clamp(148px, 45vw, 176px);
-  flex: 0 0 45%;
+  width: clamp(166px, 45%, 184px);
+  height: clamp(166px, 45vw, 184px);
   border: 0;
   border-radius: 8px;
   background: transparent;
   overflow: hidden;
+  filter:
+    drop-shadow(0 10px 14px rgba(0, 0, 0, 0.24))
+    drop-shadow(0 0 16px rgba(255, 255, 255, 0.34));
 }
 
 .badge-stamp img {
@@ -840,8 +851,8 @@ button {
 }
 
 .nav-icon {
-  width: 31px;
-  height: 31px;
+  width: 35px;
+  height: 35px;
   fill: none;
   stroke: currentColor;
   stroke-width: 1.75;
@@ -1017,13 +1028,16 @@ button {
 .badge-preview {
   display: grid;
   place-items: center;
-  width: 132px;
-  height: 132px;
+  width: clamp(166px, 45vw, 184px);
+  height: clamp(166px, 45vw, 184px);
   margin: 0 auto 12px;
   border: 0;
   border-radius: 10px;
   background: transparent;
   overflow: hidden;
+  filter:
+    drop-shadow(0 10px 14px rgba(0, 0, 0, 0.22))
+    drop-shadow(0 0 16px rgba(18, 55, 173, 0.16));
 }
 
 .badge-preview img {
