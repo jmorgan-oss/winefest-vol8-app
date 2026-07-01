@@ -72,6 +72,23 @@ function loadSavedState() {
 
 const state = loadSavedState();
 
+const badgeAssets = {
+  en: {
+    "badge-first": "./assets/badges/EN/First Stamp.png",
+    "badge-explorer": "./assets/badges/EN/Tasting Explorer.png",
+    "badge-scout": "./assets/badges/EN/Cellar Scout.png",
+    "badge-tour": "./assets/badges/EN/Grand Tasting Tour.png",
+    "badge-legend": "./assets/badges/EN/Winefest Legend.png"
+  },
+  es: {
+    "badge-first": "./assets/badges/ES/Primer Sello.png",
+    "badge-explorer": "./assets/badges/ES/Explorador de Cata.png",
+    "badge-scout": "./assets/badges/ES/Explorador de Bodega.png",
+    "badge-tour": "./assets/badges/ES/Gran Tour de Cata.png",
+    "badge-legend": "./assets/badges/ES/Leyenda de Winefest.png"
+  }
+};
+
 let tables = [
   {
     id: "t1",
@@ -458,7 +475,7 @@ const copy = {
     badgeFirst: ["First", "Stamp"],
     badgeExplorer: ["Tasting", "Explorer"],
     badgeScout: ["Cellar", "Scout"],
-    badgeTour: ["Grand", "Tour"],
+    badgeTour: ["Grand Tasting", "Tour"],
     badgeLegend: ["WineFest", "Legend"],
     badgeEarnedCopy: "You earned a new WineFest passport stamp.",
     badgeNice: "Nice",
@@ -1033,6 +1050,16 @@ function getBadge(tastings) {
   return { className: "badge-empty", text: [lang.badgeNo, lang.badgeStamp] };
 }
 
+function badgeLabel(badge) {
+  return badge.text.join(" ");
+}
+
+function badgeArtwork(badge) {
+  const src = badgeAssets[state.language]?.[badge.className] || badgeAssets.en[badge.className];
+  if (!src) return "";
+  return `<img src="${src}" alt="${badgeLabel(badge)}">`;
+}
+
 function getBadgeLevel(tastings) {
   if (tastings >= 20) return 20;
   if (tastings >= 15) return 15;
@@ -1059,7 +1086,8 @@ function renderPassport() {
   const badgeEl = document.getElementById("current-badge");
   badgeEl.className = `badge-stamp ${badge.className}`;
   badgeEl.classList.toggle("is-hidden", stats.tastings === 0);
-  badgeEl.innerHTML = `<span>${badge.text[0]}</span><strong>${badge.text[1]}</strong>`;
+  badgeEl.setAttribute("aria-label", badgeLabel(badge));
+  badgeEl.innerHTML = badgeArtwork(badge);
   document.getElementById("passport-label").textContent = lang.passportKicker;
   document.getElementById("passport-headline").textContent = stats.tastings ? lang.passportHeadline : lang.emptyTitle;
   document.getElementById("passport-summary").textContent = stats.tastings ? lang.passportSummary : lang.emptyBody;
@@ -1374,8 +1402,9 @@ function showBadgeEarned(level) {
   const lang = copy[state.language];
   const badge = getBadge(level);
   document.getElementById("badge-earned-art").className = `badge-preview ${badge.className}`;
-  document.getElementById("badge-earned-art").innerHTML = `<span>${badge.text[0]}</span><strong>${badge.text[1]}</strong>`;
-  document.getElementById("badge-earned-title").textContent = badge.text.join(" ");
+  document.getElementById("badge-earned-art").setAttribute("aria-label", badgeLabel(badge));
+  document.getElementById("badge-earned-art").innerHTML = badgeArtwork(badge);
+  document.getElementById("badge-earned-title").textContent = badgeLabel(badge);
   document.getElementById("badge-earned-copy").textContent = lang.badgeEarnedCopy;
   document.querySelector("#badge-dialog [data-action='close-badge']").textContent = lang.badgeNice;
   badgeDialog.showModal();
