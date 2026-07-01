@@ -398,17 +398,39 @@ button {
 .hero-card {
   position: relative;
   display: block;
+  isolation: isolate;
   min-height: 216px;
   padding: 18px 18px 20px;
   border-radius: 20px;
-  background: var(--blue);
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 88% 18%, rgba(255, 255, 255, 0.22), transparent 22%),
+    radial-gradient(circle at 96% 42%, rgba(8, 18, 66, 0.38), transparent 31%),
+    linear-gradient(145deg, #1841c0 0%, #1237ad 46%, #092067 100%);
   color: #fff;
   box-shadow: var(--shadow);
 }
 
+.hero-card::before {
+  position: absolute;
+  top: 5px;
+  right: 1px;
+  width: 206px;
+  height: 206px;
+  border-radius: 50%;
+  content: "";
+  background:
+    radial-gradient(circle, rgba(255, 255, 255, 0.13) 0 33%, rgba(255, 255, 255, 0.05) 34% 49%, rgba(0, 0, 0, 0.22) 50% 66%, rgba(0, 0, 0, 0) 67%);
+  filter: blur(0.5px);
+  opacity: 0.92;
+  z-index: 0;
+}
+
 .hero-card > div:first-child {
+  position: relative;
+  z-index: 1;
   min-width: 0;
-  padding-right: 150px;
+  padding-right: 168px;
 }
 
 .hero-card p,
@@ -417,15 +439,17 @@ button {
 }
 
 .hero-card h2 {
-  max-width: 222px;
-  font-size: 28px;
-  line-height: 1.03;
+  max-width: 170px;
+  font-size: 27px;
+  line-height: 0.98;
 }
 
 .hero-card #passport-summary {
   max-width: none;
   padding-right: 0;
-  margin-top: 46px;
+  margin-top: 54px;
+  font-size: 15px;
+  line-height: 1.14;
 }
 
 .badge-stamp {
@@ -440,17 +464,7 @@ button {
   border-radius: 8px;
   background: transparent;
   overflow: visible;
-}
-
-.badge-stamp::before,
-.badge-preview::before {
-  content: "";
-  position: absolute;
-  inset: 11%;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.28), rgba(255, 255, 255, 0) 68%);
-  filter: blur(3px);
-  z-index: 0;
+  z-index: 2;
 }
 
 .badge-stamp img {
@@ -459,6 +473,7 @@ button {
   width: 100%;
   height: 100%;
   object-fit: contain;
+  filter: drop-shadow(0 10px 12px rgba(0, 0, 0, 0.24));
 }
 
 .badge-empty {
@@ -1059,6 +1074,7 @@ button {
   width: 100%;
   height: 100%;
   object-fit: contain;
+  filter: drop-shadow(0 10px 12px rgba(0, 0, 0, 0.22));
 }
 
 .badge-preview.badge-first {
