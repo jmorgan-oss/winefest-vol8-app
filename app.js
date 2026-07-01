@@ -74,18 +74,18 @@ const state = loadSavedState();
 
 const badgeAssets = {
   en: {
-    "badge-first": "./assets/badges/EN/First Stamp.png",
-    "badge-explorer": "./assets/badges/EN/Tasting Explorer.png",
-    "badge-scout": "./assets/badges/EN/Cellar Scout.png",
-    "badge-tour": "./assets/badges/EN/Grand Tasting Tour.png",
-    "badge-legend": "./assets/badges/EN/Winefest Legend.png"
+    "badge-first": "./assets/badges/EN/First_Stamp.png",
+    "badge-explorer": "./assets/badges/EN/Tasting_Explorer.png",
+    "badge-scout": "./assets/badges/EN/Cellar_Scout.png",
+    "badge-tour": "./assets/badges/EN/Grand_Tasting_Tour.png",
+    "badge-legend": "./assets/badges/EN/Winefest_Legend.png"
   },
   es: {
-    "badge-first": "./assets/badges/ES/Primer Sello.png",
-    "badge-explorer": "./assets/badges/ES/Explorador de Cata.png",
-    "badge-scout": "./assets/badges/ES/Explorador de Bodega.png",
-    "badge-tour": "./assets/badges/ES/Gran Tour de Cata.png",
-    "badge-legend": "./assets/badges/ES/Leyenda de Winefest.png"
+    "badge-first": "./assets/badges/ES/Primer_Sello.png",
+    "badge-explorer": "./assets/badges/ES/Explorador_de_Cata.png",
+    "badge-scout": "./assets/badges/ES/Explorador_de_Bodega.png",
+    "badge-tour": "./assets/badges/ES/Gran_Tour-de_Cata.png",
+    "badge-legend": "./assets/badges/ES/Leyenda_de_Winefest.png"
   }
 };
 
