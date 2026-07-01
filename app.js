@@ -756,6 +756,13 @@ async function supabaseRequest(path, options = {}) {
   return response.json();
 }
 
+async function supabaseRpc(functionName, payload) {
+  return supabaseRequest(`rpc/${functionName}`, {
+    method: "POST",
+    body: JSON.stringify(payload)
+  });
+}
+
 function mapSupabaseData({ appTables, appTastings, dbDistributors, dbMenuItems, dbScheduleItems }) {
   const nextDistributors = {};
   dbDistributors.forEach((item) => {
@@ -931,21 +938,14 @@ function saveBrandLeadFromGuest(consentMethod = "begasa_contact_button") {
 async function syncGuest() {
   if (!hasSavedContact()) return;
   try {
-    const data = await supabaseRequest("guests?on_conflict=local_visitor_id", {
-      method: "POST",
-      headers: {
-        Prefer: "resolution=merge-duplicates,return=representation"
-      },
-      body: JSON.stringify([{
-        local_visitor_id: state.visitorId,
-        name: state.guest.name,
-        email: state.guest.email,
-        phone: state.guest.phone,
-        preferred_language: state.language,
-        schema_version: SCHEMA_VERSION
-      }])
+    const remoteId = await supabaseRpc("submit_guest", {
+      p_local_visitor_id: state.visitorId,
+      p_name: state.guest.name,
+      p_email: state.guest.email,
+      p_phone: state.guest.phone,
+      p_preferred_language: state.language,
+      p_schema_version: SCHEMA_VERSION
     });
-    const remoteId = data?.[0]?.id;
     if (remoteId) {
       state.guest.remoteId = remoteId;
       saveState();
@@ -959,17 +959,10 @@ async function syncRating(tastingId) {
   if (!wines[tastingId] || !state.ratings[tastingId]) return;
   await syncGuest();
   try {
-    await supabaseRequest("ratings?on_conflict=local_visitor_id,tasting_id", {
-      method: "POST",
-      headers: {
-        Prefer: "resolution=merge-duplicates"
-      },
-      body: JSON.stringify([{
-        guest_id: state.guest.remoteId || null,
-        local_visitor_id: state.visitorId,
-        tasting_id: tastingId,
-        rating: state.ratings[tastingId]
-      }])
+    await supabaseRpc("submit_rating", {
+      p_local_visitor_id: state.visitorId,
+      p_tasting_id: tastingId,
+      p_rating: state.ratings[tastingId]
     });
   } catch (error) {
     console.warn("Rating sync failed", error);
@@ -980,29 +973,20 @@ async function syncLead(interest) {
   if (!interest || !wines[interest.tastingId]) return;
   await syncGuest();
   try {
-    await supabaseRequest("leads?on_conflict=local_visitor_id,tasting_id", {
-      method: "POST",
-      headers: {
-        Prefer: "resolution=merge-duplicates"
-      },
-      body: JSON.stringify([{
-        guest_id: state.guest.remoteId || null,
-        local_visitor_id: state.visitorId,
-        tasting_id: interest.tastingId,
-        distributor_id: interest.distributorId,
-        table_id: interest.tableId,
-        guest_name_snapshot: interest.guestName,
-        guest_email_snapshot: interest.guestEmail,
-        guest_phone_snapshot: interest.guestPhone,
-        tasting_name_snapshot: interest.tastingName,
-        distributor_name_snapshot: interest.distributorName,
-        table_code_snapshot: interest.tableNumber,
-        rating_snapshot: interest.ratingSnapshot,
-        consent_to_share: interest.consentToShare,
-        consent_at: interest.consentAt,
-        consent_method: interest.consentMethod,
-        schema_version: interest.schemaVersion
-      }])
+    await supabaseRpc("submit_lead", {
+      p_local_visitor_id: state.visitorId,
+      p_tasting_id: interest.tastingId,
+      p_distributor_id: interest.distributorId,
+      p_table_id: interest.tableId,
+      p_guest_name_snapshot: interest.guestName,
+      p_guest_email_snapshot: interest.guestEmail,
+      p_guest_phone_snapshot: interest.guestPhone,
+      p_tasting_name_snapshot: interest.tastingName,
+      p_distributor_name_snapshot: interest.distributorName,
+      p_table_code_snapshot: interest.tableNumber,
+      p_rating_snapshot: interest.ratingSnapshot,
+      p_consent_method: interest.consentMethod,
+      p_schema_version: interest.schemaVersion
     });
   } catch (error) {
     console.warn("Lead sync failed", error);
