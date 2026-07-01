@@ -363,6 +363,7 @@ let distributors = {
 
 let menuItems = [];
 let scheduleItems = [];
+let eventTop10 = [];
 
 const copy = {
   en: {
@@ -428,7 +429,9 @@ const copy = {
     countryLabel: "Country",
     brandLabel: "Brand",
     starsAria: "stars",
-    noTopYet: "Top 10 will appear once real event ratings are connected.",
+    noTopYet: "Event favorites will appear here after guests start rating selections.",
+    ratingCountSingular: "rating",
+    ratingCountPlural: "ratings",
     selectionsTitle: "Selections",
     seafoodDesc: "Crisp toast topped with fresh seafood, herbs, and a bright citrus finish.",
     mushroomDesc: "Warm mushroom bites with a light truffle aroma and savory finish.",
@@ -542,7 +545,9 @@ const copy = {
     countryLabel: "País",
     brandLabel: "Marca",
     starsAria: "estrellas",
-    noTopYet: "El Top 10 aparecerá cuando conectemos las calificaciones reales del evento.",
+    noTopYet: "Los favoritos del evento aparecerán aquí cuando los invitados empiecen a calificar selecciones.",
+    ratingCountSingular: "calificación",
+    ratingCountPlural: "calificaciones",
     selectionsTitle: "Selecciones",
     seafoodDesc: "Tostada crujiente con mariscos frescos, hierbas y un toque cítrico.",
     mushroomDesc: "Bocados calientes de hongos con aroma suave de trufa y final salado.",
@@ -763,7 +768,7 @@ async function supabaseRpc(functionName, payload) {
   });
 }
 
-function mapSupabaseData({ appTables, appTastings, dbDistributors, dbMenuItems, dbScheduleItems }) {
+function mapSupabaseData({ appTables, appTastings, dbDistributors, dbMenuItems, dbScheduleItems, dbEventTop10 }) {
   const nextDistributors = {};
   dbDistributors.forEach((item) => {
     nextDistributors[item.id] = {
@@ -814,6 +819,7 @@ function mapSupabaseData({ appTables, appTastings, dbDistributors, dbMenuItems, 
   tables = nextTables;
   menuItems = dbMenuItems || [];
   scheduleItems = dbScheduleItems || [];
+  eventTop10 = dbEventTop10 || [];
 
   if (!wines[state.currentWineId]) {
     state.currentWineId = Object.keys(wines)[0] || state.currentWineId;
@@ -825,15 +831,27 @@ function mapSupabaseData({ appTables, appTastings, dbDistributors, dbMenuItems, 
 }
 
 async function loadSupabaseData() {
-  const [appTables, appTastings, dbDistributors, dbMenuItems, dbScheduleItems] = await Promise.all([
+  const [appTables, appTastings, dbDistributors, dbMenuItems, dbScheduleItems, dbEventTop10] = await Promise.all([
     supabaseRequest("app_tables?select=*&order=code.asc"),
     supabaseRequest("app_tastings?select=*&order=source_row.asc"),
     supabaseRequest("distributors?select=*&active=eq.true&order=code.asc"),
     supabaseRequest("menu_items?select=*&active=eq.true&order=sort_order.asc"),
-    supabaseRequest("schedule_items?select=*&active=eq.true&order=sort_order.asc")
+    supabaseRequest("schedule_items?select=*&active=eq.true&order=sort_order.asc"),
+    supabaseRpc("get_event_top10", {})
   ]);
-  mapSupabaseData({ appTables, appTastings, dbDistributors, dbMenuItems, dbScheduleItems });
+  mapSupabaseData({ appTables, appTastings, dbDistributors, dbMenuItems, dbScheduleItems, dbEventTop10 });
   renderAll();
+}
+
+async function refreshEventTop10() {
+  try {
+    eventTop10 = await supabaseRpc("get_event_top10", {});
+    if (state.currentSubInfo === "top10") {
+      renderSubInfo("top10");
+    }
+  } catch (error) {
+    console.warn("Event Top 10 refresh failed", error);
+  }
 }
 
 function hasSavedContact() {
@@ -964,6 +982,7 @@ async function syncRating(tastingId) {
       p_tasting_id: tastingId,
       p_rating: state.ratings[tastingId]
     });
+    await refreshEventTop10();
   } catch (error) {
     console.warn("Rating sync failed", error);
   }
@@ -1177,23 +1196,31 @@ function renderSubInfo(type) {
   const lang = copy[state.language];
   state.currentSubInfo = type;
   saveState();
+  const top10Rows = eventTop10
+    .filter((item) => wines[item.tasting_id])
+    .map((item, index) => {
+      const wine = localizedWine(wines[item.tasting_id]);
+      const average = Number(item.average_rating || 0);
+      const count = Number(item.rating_count || 0);
+      const countLabel = count === 1 ? lang.ratingCountSingular : lang.ratingCountPlural;
+      return `
+            <article class="pick-card">
+              <div>
+                <h4>${index + 1}. ${wine.name}</h4>
+                <div class="wine-meta">${wine.type} · ${lang.table} ${tableNumber(wines[item.tasting_id].tableId)}</div>
+                <div class="wine-meta">${average.toFixed(1)} ★ · ${count} ${countLabel}</div>
+              </div>
+              <span class="stars">${stars(Math.round(average))}</span>
+            </article>
+          `;
+    })
+    .join("");
   const content = {
     top10: `
       <div class="detail-panel">
         <div class="detail-meta">${lang.top10} · ${lang.sampleData}</div>
         <h2>${lang.guestFavorites}</h2>
-        <p>${lang.noTopYet}</p>
-        <div class="list-stack">
-          ${Object.keys(wines).slice(0, 10).map((id, index) => `
-            <article class="pick-card">
-              <div>
-                <h4>${index + 1}. ${localizedWine(wines[id]).name}</h4>
-                <div class="wine-meta">${localizedWine(wines[id]).type} · ${lang.table} ${tableNumber(wines[id].tableId)}</div>
-              </div>
-              <span class="stars">${stars(5 - Math.min(index, 2))}</span>
-            </article>
-          `).join("")}
-        </div>
+        ${top10Rows ? `<div class="list-stack">${top10Rows}</div>` : `<p>${lang.noTopYet}</p>`}
       </div>
     `,
     distributors: `
