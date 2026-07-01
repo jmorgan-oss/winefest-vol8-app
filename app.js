@@ -682,6 +682,10 @@ function updateUtilityRow() {
   languageSwitch.textContent = state.language === "en" ? "ES" : "EN";
 }
 
+function panelBackButton(action, label = getBackLabelForView()) {
+  return `<button class="panel-back-button" data-action="${action}">${label}</button>`;
+}
+
 function runBackAction(backAction) {
   if (backAction === "back-to-taste") {
     showView("taste");
@@ -1178,6 +1182,7 @@ function renderTableDetail(tableId) {
           `;
         }).join("")}
       </div>
+      ${panelBackButton("back-to-taste", lang.backTables)}
     </div>
   `;
   showView("table");
@@ -1208,13 +1213,18 @@ function renderWineDetail(wineId) {
         <div class="stat-card"><span>${lang.countryLabel}</span><strong>${wine.country || "-"}</strong></div>
         <div class="stat-card"><span>${lang.brandLabel}</span><strong>${wine.brand || wine.region || "-"}</strong></div>
       </div>
-      <h3 class="section-title">${lang.yourRating}</h3>
-      <div class="rating-row">
-        ${[1, 2, 3, 4, 5].map((value) => `
-          <button class="${value <= rating ? "is-selected" : ""}" data-rate="${value}" aria-label="${value} ${lang.starsAria}">★</button>
-        `).join("")}
+      <div class="wine-action-row">
+        <div>
+          <h3 class="section-title">${lang.yourRating}</h3>
+          <div class="rating-row">
+            ${[1, 2, 3, 4, 5].map((value) => `
+              <button class="${value <= rating ? "is-selected" : ""}" data-rate="${value}" aria-label="${value} ${lang.starsAria}">★</button>
+            `).join("")}
+          </div>
+        </div>
+        <button class="small-button interest-inline ${saved ? "is-saved" : ""}" data-interest="${wineId}" ${saved ? "disabled" : ""}>${saved ? copy[state.language].onList : copy[state.language].interested}</button>
       </div>
-      <button class="primary-action ${saved ? "is-saved" : ""}" data-interest="${wineId}" ${saved ? "disabled" : ""}>${saved ? copy[state.language].onList : copy[state.language].interested}</button>
+      ${panelBackButton("back-to-table", getBackLabelForView())}
     </div>
   `;
   saveState();
@@ -1250,6 +1260,7 @@ function renderSubInfo(type) {
         <div class="detail-meta">${lang.top10} · ${lang.sampleData}</div>
         <h2>${lang.guestFavorites}</h2>
         ${top10Rows ? `<div class="list-stack">${top10Rows}</div>` : `<p>${lang.noTopYet}</p>`}
+        ${panelBackButton("back-to-info", lang.backInfo)}
       </div>
     `,
     distributors: `
@@ -1270,6 +1281,7 @@ function renderSubInfo(type) {
             </button>
           `}).join("")}
         </div>
+        ${panelBackButton("back-to-info", lang.backInfo)}
       </div>
     `,
     schedule: `
@@ -1286,6 +1298,7 @@ function renderSubInfo(type) {
             <article class="pick-card"><div><h4>${item.time_label}</h4><div class="wine-meta">${item.title}</div></div></article>
           `).join("")}
         </div>
+        ${panelBackButton("back-to-info", lang.backInfo)}
       </div>
     `,
     menu: `
@@ -1310,6 +1323,7 @@ function renderSubInfo(type) {
             </article>
           `).join("")}
         </div>
+        ${panelBackButton("back-to-info", lang.backInfo)}
       </div>
     `
   };
@@ -1346,6 +1360,7 @@ function renderDistributor(distributorId) {
           </button>
         `).join("")}
       </div>
+      ${panelBackButton("back-to-distributors", lang.backDistributors)}
     </div>
   `;
   showView("distributor");
